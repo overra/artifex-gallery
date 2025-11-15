@@ -28,6 +28,7 @@ export function AppFooter() {
               <li><Link to="/" className="text-base text-muted-foreground hover:text-primary">Artists</Link></li>
               <li><Link to="/" className="text-base text-muted-foreground hover:text-primary">About Us</Link></li>
               <li><Link to="/" className="text-base text-muted-foreground hover:text-primary">Guidelines</Link></li>
+              <li><Link to="/admin" className="text-base text-muted-foreground hover:text-primary">Admin</Link></li>
             </ul>
           </div>
           <div>

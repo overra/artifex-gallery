@@ -13,12 +13,15 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { useAuthStore } from '@/store/auth';
+import { useArtworksStore } from '@/store/artworks';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { UploadSheet } from '@/components/UploadSheet';
 export function AppHeader() {
   const currentUser = useAuthStore((state) => state.currentUser);
   const login = useAuthStore((state) => state.login);
   const logout = useAuthStore((state) => state.logout);
+  const searchTerm = useArtworksStore((state) => state.searchTerm);
+  const setSearchTerm = useArtworksStore((state) => state.setSearchTerm);
   const [isUploadSheetOpen, setUploadSheetOpen] = useState(false);
   return (
     <>
@@ -42,7 +45,12 @@ export function AppHeader() {
             <div className="flex-1 mx-4 sm:mx-8 max-w-sm">
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-                <Input placeholder="Search for art, artists, tags..." className="pl-10" />
+                <Input
+                  placeholder="Search for art, artists, tags..."
+                  className="pl-10"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
               </div>
             </div>
             <div className="flex items-center space-x-4">

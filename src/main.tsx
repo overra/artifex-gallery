@@ -14,6 +14,7 @@ import { HomePage } from '@/pages/HomePage'
 import { ImageDetailPage } from '@/pages/ImageDetailPage';
 import { ProfilePage } from '@/pages/ProfilePage';
 import { UploadPage } from '@/pages/UploadPage';
+import { AdminDashboardPage } from '@/pages/AdminDashboardPage';
 import { MainLayout } from '@/components/layout/MainLayout';
 const router = createBrowserRouter([
   {
@@ -35,6 +36,10 @@ const router = createBrowserRouter([
       {
         path: "/upload",
         element: <UploadPage />,
+      },
+      {
+        path: "/admin",
+        element: <AdminDashboardPage />,
       },
     ]
   }
