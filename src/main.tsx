@@ -17,6 +17,7 @@ import { UploadPage } from '@/pages/UploadPage';
 import { AdminDashboardPage } from '@/pages/AdminDashboardPage';
 import { CollectionDetailPage } from '@/pages/CollectionDetailPage';
 import { TrendingPage } from '@/pages/TrendingPage';
+import { FollowingPage } from '@/pages/FollowingPage';
 import { MainLayout } from '@/components/layout/MainLayout';
 const router = createBrowserRouter([
   {
@@ -50,6 +51,10 @@ const router = createBrowserRouter([
       {
         path: "/trending",
         element: <TrendingPage />,
+      },
+      {
+        path: "/following",
+        element: <FollowingPage />,
       },
     ]
   }

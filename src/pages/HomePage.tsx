@@ -10,6 +10,7 @@ const popularTags = ['space', 'cyberpunk', 'fantasy', 'steampunk', 'abstract', '
 export function HomePage() {
   const allArtworks = useArtworksStore((state) => state.artworks);
   const searchTerm = useArtworksStore((state) => state.searchTerm);
+  const setSearchTerm = useArtworksStore((state) => state.setSearchTerm);
   const filterTag = useArtworksStore((state) => state.filterTag);
   const setFilterTag = useArtworksStore((state) => state.setFilterTag);
   const filteredArtworks = useMemo(() => {
@@ -92,12 +93,24 @@ export function HomePage() {
             ))}
           </Masonry>
         ) : (
-          <div className="text-center py-16">
+          <div className="text-center py-16 border-2 border-dashed rounded-lg">
             <SearchX className="mx-auto h-12 w-12 text-muted-foreground" />
             <h3 className="mt-4 text-lg font-semibold">No Results Found</h3>
             <p className="mt-1 text-sm text-muted-foreground">
               Try adjusting your search or filters to find what you're looking for.
             </p>
+            {(searchTerm || filterTag) && (
+              <Button
+                variant="ghost"
+                className="mt-4"
+                onClick={() => {
+                  setSearchTerm('');
+                  setFilterTag(null);
+                }}
+              >
+                Clear Search & Filters
+              </Button>
+            )}
           </div>
         )}
         {displayedArtworks.length < filteredArtworks.length && (

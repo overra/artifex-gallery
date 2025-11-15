@@ -7,7 +7,7 @@ import { ImageCard } from '@/components/ImageCard';
 import { CollectionCard } from '@/components/CollectionCard';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Heart } from 'lucide-react';
+import { ArrowLeft, Heart, Image as ImageIcon, Folder } from 'lucide-react';
 export function ProfilePage() {
   const { username } = useParams();
   const navigate = useNavigate();
@@ -62,7 +62,11 @@ export function ProfilePage() {
               </Masonry>
             ) : (
               <div className="text-center py-16 border-2 border-dashed rounded-lg">
-                <p className="text-muted-foreground">This user hasn't uploaded any art yet.</p>
+                <ImageIcon className="mx-auto h-12 w-12 text-muted-foreground" />
+                <h3 className="mt-4 text-lg font-semibold">No Creations Yet</h3>
+                <p className="mt-1 text-sm text-muted-foreground">
+                  This user hasn't uploaded any art yet.
+                </p>
               </div>
             )}
           </TabsContent>
@@ -75,7 +79,11 @@ export function ProfilePage() {
               </div>
             ) : (
               <div className="text-center py-16 border-2 border-dashed rounded-lg">
-                <p className="text-muted-foreground">This user hasn't created any collections yet.</p>
+                <Folder className="mx-auto h-12 w-12 text-muted-foreground" />
+                <h3 className="mt-4 text-lg font-semibold">No Collections Yet</h3>
+                <p className="mt-1 text-sm text-muted-foreground">
+                  This user hasn't created any collections yet.
+                </p>
               </div>
             )}
           </TabsContent>

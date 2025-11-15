@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Palette, Search, User as UserIcon, LogIn, LogOut, PlusSquare } from 'lucide-react';
+import { Palette, Search, User as UserIcon, LogIn, LogOut, PlusSquare, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -33,13 +33,18 @@ export function AppHeader() {
                 <Palette className="h-8 w-8 text-primary" />
                 <span className="font-display text-2xl font-bold">Artifex</span>
               </Link>
-              <nav className="hidden md:flex items-center space-x-4">
+              <nav className="hidden md:flex items-center space-x-1">
                 <Button variant="ghost" asChild>
                   <Link to="/">Explore</Link>
                 </Button>
                 <Button variant="ghost" asChild>
                   <Link to="/trending">Trending</Link>
                 </Button>
+                {currentUser && (
+                  <Button variant="ghost" asChild>
+                    <Link to="/following">Following</Link>
+                  </Button>
+                )}
               </nav>
             </div>
             <div className="flex-1 mx-4 sm:mx-8 max-w-sm">
@@ -47,10 +52,20 @@ export function AppHeader() {
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                 <Input
                   placeholder="Search for art, artists, tags..."
-                  className="pl-10"
+                  className="pl-10 pr-10"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                 />
+                {searchTerm && (
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="absolute right-1 top-1/2 -translate-y-1/2 h-7 w-7"
+                    onClick={() => setSearchTerm('')}
+                  >
+                    <X className="h-4 w-4" />
+                  </Button>
+                )}
               </div>
             </div>
             <div className="flex items-center space-x-4">
