@@ -11,17 +11,26 @@ import { Separator } from '@/components/ui/separator';
 import { CommentSection } from '@/components/CommentSection';
 import { Card } from '@/components/ui/card';
 import { SaveToCollectionDialog } from '@/components/SaveToCollectionDialog';
+import { cn } from '@/lib/utils';
 export function ImageDetailPage() {
   const { id } = useParams();
   const navigate = useNavigate();
   const artwork = useArtworksStore((state) => state.artworks.find((art) => art.id === id));
+  const likedArtworks = useArtworksStore((state) => state.likedArtworks);
+  const toggleLike = useArtworksStore((state) => state.toggleLike);
   const currentUser = useAuthStore((state) => state.currentUser);
   const [isSaveDialogOpen, setSaveDialogOpen] = useState(false);
+  const isLiked = id ? likedArtworks.has(id) : false;
   const handleSaveClick = () => {
     if (currentUser) {
       setSaveDialogOpen(true);
     } else {
       toast.error('Please log in to save artwork.');
+    }
+  };
+  const handleLikeClick = () => {
+    if (id) {
+      toggleLike(id);
     }
   };
   if (!artwork) {
@@ -80,8 +89,8 @@ export function ImageDetailPage() {
                     </div>
                   </div>
                   <div className="flex space-x-2 mb-6">
-                    <Button size="lg" className="flex-1">
-                      <Heart className="mr-2 h-4 w-4" /> Like
+                    <Button size="lg" className="flex-1" variant={isLiked ? "default" : "outline"} onClick={handleLikeClick}>
+                      <Heart className={cn("mr-2 h-4 w-4", isLiked && "fill-current")} /> {isLiked ? 'Liked' : 'Like'}
                     </Button>
                     <Button size="lg" variant="outline" className="flex-1" onClick={handleSaveClick}>
                       <Bookmark className="mr-2 h-4 w-4" /> Save

@@ -38,7 +38,7 @@ export function AppHeader() {
                   <Link to="/">Explore</Link>
                 </Button>
                 <Button variant="ghost" asChild>
-                  <Link to="/">Trending</Link>
+                  <Link to="/trending">Trending</Link>
                 </Button>
               </nav>
             </div>

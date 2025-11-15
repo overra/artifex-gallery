@@ -1,15 +1,29 @@
 import { create } from 'zustand';
 import { mockUsers, User, Collection } from '@/lib/mock-data';
+interface CurrentUser extends User {
+  followingIds: string[];
+}
 interface AuthState {
-  currentUser: User | null;
+  currentUser: CurrentUser | null;
   login: () => void;
   logout: () => void;
   createCollection: (collectionName: string) => string | null;
   addArtworkToCollection: (collectionId: string, artworkId: string) => void;
+  toggleFollow: (userId: string) => void;
+}
+// Add followingIds to mock user for demo purposes
+if (mockUsers[0] && !('followingIds' in mockUsers[0])) {
+  (mockUsers[0] as CurrentUser).followingIds = ['user-2']; // Pre-follow one user
 }
 export const useAuthStore = create<AuthState>((set, get) => ({
   currentUser: null,
-  login: () => set({ currentUser: mockUsers[0] }), // Log in the first mock user
+  login: () => {
+    const userToLogin = { ...mockUsers[0] };
+    if (!('followingIds' in userToLogin)) {
+      (userToLogin as CurrentUser).followingIds = [];
+    }
+    set({ currentUser: userToLogin as CurrentUser });
+  },
   logout: () => set({ currentUser: null }),
   createCollection: (collectionName) => {
     const { currentUser } = get();
@@ -54,6 +68,26 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     const userIndex = mockUsers.findIndex(u => u.id === currentUser.id);
     if (userIndex !== -1) {
       mockUsers[userIndex].collections = updatedCollections;
+    }
+  },
+  toggleFollow: (userId: string) => {
+    const { currentUser } = get();
+    if (!currentUser) return;
+    const newFollowingIds = new Set(currentUser.followingIds);
+    if (newFollowingIds.has(userId)) {
+      newFollowingIds.delete(userId);
+    } else {
+      newFollowingIds.add(userId);
+    }
+    const updatedUser = {
+      ...currentUser,
+      followingIds: Array.from(newFollowingIds),
+    };
+    set({ currentUser: updatedUser });
+    // Also update the mockUsers array
+    const userIndex = mockUsers.findIndex(u => u.id === currentUser.id);
+    if (userIndex !== -1) {
+      (mockUsers[userIndex] as CurrentUser).followingIds = updatedUser.followingIds;
     }
   },
 }));

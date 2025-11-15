@@ -7,13 +7,13 @@ import { ImageCard } from '@/components/ImageCard';
 import { CollectionCard } from '@/components/CollectionCard';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, Heart } from 'lucide-react';
 export function ProfilePage() {
   const { username } = useParams();
   const navigate = useNavigate();
   const allArtworks = useArtworksStore((state) => state.artworks);
+  const likedArtworksSet = useArtworksStore((state) => state.likedArtworks);
   const user = mockUsers.find((u) => u.username === username);
-  const userArtworks = allArtworks.filter((art) => art.artist.id === user?.id);
   if (!user) {
     return (
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -28,6 +28,8 @@ export function ProfilePage() {
       </div>
     );
   }
+  const userArtworks = allArtworks.filter((art) => art.artist.id === user.id);
+  const likedArtworks = allArtworks.filter((art) => likedArtworksSet.has(art.id));
   const breakpointColumnsObj = {
     default: 4,
     1280: 3, // xl
@@ -42,9 +44,10 @@ export function ProfilePage() {
           <UserProfileHeader user={user} />
         </div>
         <Tabs defaultValue="creations" className="w-full">
-          <TabsList className="grid w-full grid-cols-2 md:w-[400px] mx-auto">
+          <TabsList className="grid w-full grid-cols-3 md:w-[600px] mx-auto">
             <TabsTrigger value="creations">Creations ({userArtworks.length})</TabsTrigger>
             <TabsTrigger value="collections">Collections ({user.collections.length})</TabsTrigger>
+            <TabsTrigger value="liked">Liked ({likedArtworks.length})</TabsTrigger>
           </TabsList>
           <TabsContent value="creations" className="mt-8">
             {userArtworks.length > 0 ? (
@@ -58,7 +61,7 @@ export function ProfilePage() {
                 ))}
               </Masonry>
             ) : (
-              <div className="text-center py-16">
+              <div className="text-center py-16 border-2 border-dashed rounded-lg">
                 <p className="text-muted-foreground">This user hasn't uploaded any art yet.</p>
               </div>
             )}
@@ -71,8 +74,29 @@ export function ProfilePage() {
                 ))}
               </div>
             ) : (
-              <div className="text-center py-16">
+              <div className="text-center py-16 border-2 border-dashed rounded-lg">
                 <p className="text-muted-foreground">This user hasn't created any collections yet.</p>
+              </div>
+            )}
+          </TabsContent>
+          <TabsContent value="liked" className="mt-8">
+            {likedArtworks.length > 0 ? (
+              <Masonry
+                breakpointCols={breakpointColumnsObj}
+                className="masonry-grid"
+                columnClassName="masonry-grid_column"
+              >
+                {likedArtworks.map((artwork) => (
+                  <ImageCard key={artwork.id} artwork={artwork} />
+                ))}
+              </Masonry>
+            ) : (
+              <div className="text-center py-16 border-2 border-dashed rounded-lg">
+                <Heart className="mx-auto h-12 w-12 text-muted-foreground" />
+                <h3 className="mt-4 text-lg font-semibold">No Liked Art</h3>
+                <p className="mt-1 text-sm text-muted-foreground">
+                  Artworks you like will appear here.
+                </p>
               </div>
             )}
           </TabsContent>

@@ -1,11 +1,24 @@
 import { User } from '@/lib/mock-data';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
-import { UserPlus } from 'lucide-react';
+import { UserPlus, UserCheck } from 'lucide-react';
+import { useAuthStore } from '@/store/auth';
+import { toast } from 'sonner';
 interface UserProfileHeaderProps {
   user: User;
 }
 export function UserProfileHeader({ user }: UserProfileHeaderProps) {
+  const currentUser = useAuthStore((state) => state.currentUser);
+  const toggleFollow = useAuthStore((state) => state.toggleFollow);
+  const isFollowing = currentUser?.followingIds.includes(user.id) ?? false;
+  const isOwnProfile = currentUser?.id === user.id;
+  const handleFollowClick = () => {
+    if (!currentUser) {
+      toast.error("Please log in to follow users.");
+      return;
+    }
+    toggleFollow(user.id);
+  };
   return (
     <div className="flex flex-col items-center space-y-4 md:flex-row md:space-y-0 md:space-x-8">
       <Avatar className="h-24 w-24 md:h-32 md:w-32 border-4 border-background ring-2 ring-primary">
@@ -26,9 +39,19 @@ export function UserProfileHeader({ user }: UserProfileHeaderProps) {
           </div>
         </div>
         <div className="mt-4">
-          <Button>
-            <UserPlus className="mr-2 h-4 w-4" /> Follow
-          </Button>
+          {!isOwnProfile && (
+            <Button onClick={handleFollowClick} variant={isFollowing ? 'secondary' : 'default'}>
+              {isFollowing ? (
+                <>
+                  <UserCheck className="mr-2 h-4 w-4" /> Following
+                </>
+              ) : (
+                <>
+                  <UserPlus className="mr-2 h-4 w-4" /> Follow
+                </>
+              )}
+            </Button>
+          )}
         </div>
       </div>
     </div>
