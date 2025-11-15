@@ -18,8 +18,8 @@ export function AppFooter() {
             <h3 className="text-sm font-semibold text-foreground tracking-wider uppercase">Discover</h3>
             <ul className="mt-4 space-y-2">
               <li><Link to="/" className="text-base text-muted-foreground hover:text-primary">Explore</Link></li>
-              <li><Link to="/trending" className="text-base text-muted-foreground hover:text-primary">Trending</Link></li>
-              <li><Link to="/following" className="text-base text-muted-foreground hover:text-primary">Following</Link></li>
+              <li><Link to="/" className="text-base text-muted-foreground hover:text-primary">Trending</Link></li>
+              <li><Link to="/" className="text-base text-muted-foreground hover:text-primary">Popular Tags</Link></li>
             </ul>
           </div>
           <div>
@@ -28,7 +28,6 @@ export function AppFooter() {
               <li><Link to="/" className="text-base text-muted-foreground hover:text-primary">Artists</Link></li>
               <li><Link to="/" className="text-base text-muted-foreground hover:text-primary">About Us</Link></li>
               <li><Link to="/" className="text-base text-muted-foreground hover:text-primary">Guidelines</Link></li>
-              <li><Link to="/admin" className="text-base text-muted-foreground hover:text-primary">Admin</Link></li>
             </ul>
           </div>
           <div>

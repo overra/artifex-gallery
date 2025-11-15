@@ -14,6 +14,7 @@ export default {
   				'sans-serif'
   			],
   			display: [
+          'Playfair Display',
   				'Cal Sans',
   				'Inter',
   				'system-ui',
@@ -91,6 +92,9 @@ export default {
   			sm: 'calc(var(--radius) - 4px)'
   		},
   		colors: {
+        'artifex-indigo': '#4A47A3',
+        'artifex-magenta': '#EC407A',
+        'artifex-cream': '#FDF6E3',
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
   			muted: {
