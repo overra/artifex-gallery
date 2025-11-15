@@ -25,6 +25,11 @@ export interface Collection {
   name: string;
   artworkIds: string[];
 }
+export interface FlaggedArtwork {
+  artworkId: string;
+  reason: string;
+  flaggedBy: string; // username
+}
 // Define artworks first, so we can reference them in collections
 const artworksData: Omit<Artwork, 'artist'>[] = [
   {
@@ -119,35 +124,35 @@ const artworksData: Omit<Artwork, 'artist'>[] = [
   },
 ];
 export const mockUsers: User[] = [
-  { 
-    id: 'user-1', 
-    username: 'PixelProphet', 
+  {
+    id: 'user-1',
+    username: 'PixelProphet',
     avatarUrl: 'https://i.pravatar.cc/150?u=user-1',
     collections: [
       { id: 'col-1', name: 'Cosmic Wonders', artworkIds: ['art-1', 'art-5', 'art-8'] },
       { id: 'col-2', name: 'Mechanical Dreams', artworkIds: ['art-4', 'art-9'] },
     ]
   },
-  { 
-    id: 'user-2', 
-    username: 'AI_Alchemist', 
+  {
+    id: 'user-2',
+    username: 'AI_Alchemist',
     avatarUrl: 'https://i.pravatar.cc/150?u=user-2',
     collections: [
       { id: 'col-3', name: 'Cybernetic Visions', artworkIds: ['art-2'] },
       { id: 'col-4', name: 'Deep Sea Fantasies', artworkIds: ['art-6', 'art-10'] },
     ]
   },
-  { 
-    id: 'user-3', 
-    username: 'SynthWaveSorceress', 
+  {
+    id: 'user-3',
+    username: 'SynthWaveSorceress',
     avatarUrl: 'https://i.pravatar.cc/150?u=user-3',
     collections: [
       { id: 'col-5', name: 'Enchanted Realms', artworkIds: ['art-3', 'art-7'] },
     ]
   },
-  { 
-    id: 'user-4', 
-    username: 'GigaGAN', 
+  {
+    id: 'user-4',
+    username: 'GigaGAN',
     avatarUrl: 'https://i.pravatar.cc/150?u=user-4',
     collections: []
   },
@@ -176,3 +181,20 @@ export const mockArtworks: Artwork[] = artworksData.map((art, index) => {
   }
   return { ...art, artist, comments };
 });
+export const mockFlaggedArtworks: FlaggedArtwork[] = [
+  {
+    artworkId: 'art-2',
+    reason: 'Potentially explicit content.',
+    flaggedBy: 'AI_Moderator',
+  },
+  {
+    artworkId: 'art-9',
+    reason: 'Depicts violent themes.',
+    flaggedBy: 'CommunityGuidelineBot',
+  },
+  {
+    artworkId: 'art-5',
+    reason: 'Low-effort content ("slop").',
+    flaggedBy: 'SynthWaveSorceress',
+  },
+];
