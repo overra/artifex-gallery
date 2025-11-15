@@ -1,16 +1,16 @@
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { Heart, Bookmark, MessageCircle, ArrowLeft, User, Tag } from 'lucide-react';
-import { mockArtworks } from '@/lib/mock-data';
+import { Heart, Bookmark, MessageCircle, ArrowLeft, Tag } from 'lucide-react';
+import { useArtworksStore } from '@/store/artworks';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { CommentSection } from '@/components/CommentSection';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card } from '@/components/ui/card';
 export function ImageDetailPage() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const artwork = mockArtworks.find((art) => art.id === id);
+  const artwork = useArtworksStore((state) => state.artworks.find((art) => art.id === id));
   if (!artwork) {
     return (
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

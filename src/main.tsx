@@ -13,6 +13,7 @@ import '@/index.css'
 import { HomePage } from '@/pages/HomePage'
 import { ImageDetailPage } from '@/pages/ImageDetailPage';
 import { ProfilePage } from '@/pages/ProfilePage';
+import { UploadPage } from '@/pages/UploadPage';
 import { MainLayout } from '@/components/layout/MainLayout';
 const router = createBrowserRouter([
   {
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
       {
         path: "/profile/:username",
         element: <ProfilePage />,
+      },
+      {
+        path: "/upload",
+        element: <UploadPage />,
       },
     ]
   }

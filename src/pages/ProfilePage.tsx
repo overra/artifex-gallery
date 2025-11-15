@@ -1,6 +1,7 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import Masonry from 'react-masonry-css';
-import { mockUsers, mockArtworks } from '@/lib/mock-data';
+import { mockUsers } from '@/lib/mock-data';
+import { useArtworksStore } from '@/store/artworks';
 import { UserProfileHeader } from '@/components/UserProfileHeader';
 import { ImageCard } from '@/components/ImageCard';
 import { CollectionCard } from '@/components/CollectionCard';
@@ -10,8 +11,9 @@ import { ArrowLeft } from 'lucide-react';
 export function ProfilePage() {
   const { username } = useParams();
   const navigate = useNavigate();
+  const allArtworks = useArtworksStore((state) => state.artworks);
   const user = mockUsers.find((u) => u.username === username);
-  const userArtworks = mockArtworks.filter((art) => art.artist.id === user?.id);
+  const userArtworks = allArtworks.filter((art) => art.artist.id === user?.id);
   if (!user) {
     return (
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

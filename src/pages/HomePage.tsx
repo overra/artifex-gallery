@@ -1,27 +1,32 @@
 import { useState, useEffect } from 'react';
 import Masonry from 'react-masonry-css';
-import { mockArtworks, Artwork } from '@/lib/mock-data';
+import { useArtworksStore } from '@/store/artworks';
 import { ImageCard } from '@/components/ImageCard';
 import { Button } from '@/components/ui/button';
+import { Artwork } from '@/lib/mock-data';
 export function HomePage() {
-  const [artworks, setArtworks] = useState<Artwork[]>([]);
+  const allArtworks = useArtworksStore((state) => state.artworks);
+  const [displayedArtworks, setDisplayedArtworks] = useState<Artwork[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [page, setPage] = useState(1);
-  const fetchArtworks = () => {
+  const [page, setPage] = useState(0);
+  const itemsPerPage = 10;
+  const loadMoreArtworks = () => {
     setIsLoading(true);
-    // Simulate network delay
     setTimeout(() => {
-      // In a real app, you'd fetch from an API: `fetch(/api/artworks?page=${page})`
-      // Here we just shuffle and append the mock data
-      const newArtworks = [...mockArtworks].sort(() => 0.5 - Math.random());
-      setArtworks(prev => [...prev, ...newArtworks]);
-      setPage(prev => prev + 1);
+      const nextPage = page + 1;
+      const newArtworks = allArtworks.slice(0, nextPage * itemsPerPage);
+      setDisplayedArtworks(newArtworks);
+      setPage(nextPage);
       setIsLoading(false);
-    }, 1000);
+    }, 500);
   };
   useEffect(() => {
-    fetchArtworks();
-  }, []); // Fetch initial data on mount
+    // Initial load
+    setPage(0);
+    const initialArtworks = allArtworks.slice(0, itemsPerPage);
+    setDisplayedArtworks(initialArtworks);
+    setPage(1);
+  }, [allArtworks]);
   const breakpointColumnsObj = {
     default: 5,
     1536: 4, // 2xl
@@ -46,15 +51,17 @@ export function HomePage() {
           className="masonry-grid"
           columnClassName="masonry-grid_column"
         >
-          {artworks.map((artwork, index) => (
-            <ImageCard key={`${artwork.id}-${index}`} artwork={artwork} />
+          {displayedArtworks.map((artwork) => (
+            <ImageCard key={artwork.id} artwork={artwork} />
           ))}
         </Masonry>
-        <div className="text-center mt-12">
-          <Button onClick={fetchArtworks} disabled={isLoading} size="lg">
-            {isLoading ? 'Loading...' : 'Load More'}
-          </Button>
-        </div>
+        {displayedArtworks.length < allArtworks.length && (
+          <div className="text-center mt-12">
+            <Button onClick={loadMoreArtworks} disabled={isLoading} size="lg">
+              {isLoading ? 'Loading...' : 'Load More'}
+            </Button>
+          </div>
+        )}
       </div>
     </div>
   );

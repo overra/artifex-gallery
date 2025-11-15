@@ -32,7 +32,7 @@ const uploadSchema = z.object({
 type UploadFormValues = z.infer<typeof uploadSchema>;
 export function UploadSheet({ open, onOpenChange }: UploadSheetProps) {
   const [isModerating, setIsModerating] = useState(false);
-  const currentUserForUpload = useAuthStore((state) => state.currentUser); // Need the whole object for submission
+  const currentUser = useAuthStore((state) => state.currentUser);
   const addArtwork = useArtworksStore((state) => state.addArtwork);
   const form = useForm<UploadFormValues>({
     resolver: zodResolver(uploadSchema),
@@ -44,7 +44,7 @@ export function UploadSheet({ open, onOpenChange }: UploadSheetProps) {
     },
   });
   const onSubmit = async (data: UploadFormValues) => {
-    if (!currentUserForUpload) {
+    if (!currentUser) {
       toast.error('You must be logged in to upload art.');
       return;
     }
@@ -62,7 +62,7 @@ export function UploadSheet({ open, onOpenChange }: UploadSheetProps) {
         id: `art-${Date.now()}`,
         title: data.title,
         imageUrl: data.imageUrl,
-        artist: currentUserForUpload,
+        artist: currentUser,
         description: data.description,
         tags: data.tags.split(',').map(tag => tag.trim()),
         comments: [],
