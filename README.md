@@ -2,7 +2,7 @@
 
 A community-driven AI art gallery for discovering, sharing, and collecting AI-generated masterpieces, with powerful edge-based moderation.
 
-[cloudflarebutton]
+[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/overra/artifex-gallery)
 
 Artifex Gallery is a sophisticated, community-driven web application for showcasing, discovering, and collecting AI-generated art. Inspired by platforms like DeviantArt and Pinterest, it provides a visually stunning masonry-style gallery where users can upload their creations, organize them into collections, and engage with other artists. The platform is built on a modern, scalable serverless stack using Cloudflare Workers, Durable Objects, and a reactive frontend built with React, TypeScript, and Tailwind CSS.
 
@@ -105,7 +105,7 @@ This project is designed for easy deployment to Cloudflare's global network.
 
 Alternatively, you can deploy directly from your GitHub repository using the button below.
 
-[cloudflarebutton]
+[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/overra/artifex-gallery)
 
 ## Contributing
 
