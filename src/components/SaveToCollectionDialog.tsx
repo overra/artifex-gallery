@@ -24,7 +24,7 @@ interface SaveToCollectionDialogProps {
   onOpenChange: (open: boolean) => void;
 }
 const newCollectionSchema = z.object({
-  name: z.string().min(2, { message: 'Collection name must be at least 2 characters.' }).max(50),
+  name: z.string().min(2, { message: 'Name must be at least 2 characters.' }).max(50),
 });
 type NewCollectionFormValues = z.infer<typeof newCollectionSchema>;
 export function SaveToCollectionDialog({ artworkId, open, onOpenChange }: SaveToCollectionDialogProps) {
@@ -53,7 +53,7 @@ export function SaveToCollectionDialog({ artworkId, open, onOpenChange }: SaveTo
       toast.error('Failed to create collection.');
     }
   };
-  if (!currentUser) {
+  if (!currentUser?.collections) {
     // This dialog should not be opened if user is not logged in, but this is a safeguard.
     return null;
   }

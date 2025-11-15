@@ -18,11 +18,11 @@ export function ImageDetailPage() {
   const artwork = useArtworksStore((state) => state.artworks.find((art) => art.id === id));
   const likedArtworks = useArtworksStore((state) => state.likedArtworks);
   const toggleLike = useArtworksStore((state) => state.toggleLike);
-  const currentUser = useAuthStore((state) => state.currentUser);
+  const isLoggedIn = useAuthStore((state) => !!state.currentUser);
   const [isSaveDialogOpen, setSaveDialogOpen] = useState(false);
   const isLiked = id ? likedArtworks.has(id) : false;
   const handleSaveClick = () => {
-    if (currentUser) {
+    if (isLoggedIn) {
       setSaveDialogOpen(true);
     } else {
       toast.error('Please log in to save artwork.');
@@ -115,7 +115,7 @@ export function ImageDetailPage() {
           </Card>
         </div>
       </div>
-      {currentUser && (
+      {isLoggedIn && (
         <SaveToCollectionDialog
           artworkId={artwork.id}
           open={isSaveDialogOpen}

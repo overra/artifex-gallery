@@ -8,12 +8,13 @@ interface UserProfileHeaderProps {
   user: User;
 }
 export function UserProfileHeader({ user }: UserProfileHeaderProps) {
-  const currentUser = useAuthStore((state) => state.currentUser);
+  const currentUserId = useAuthStore((state) => state.currentUser?.id);
+  const currentUserFollowingIds = useAuthStore((state) => state.currentUser?.followingIds ?? []);
   const toggleFollow = useAuthStore((state) => state.toggleFollow);
-  const isFollowing = currentUser?.followingIds.includes(user.id) ?? false;
-  const isOwnProfile = currentUser?.id === user.id;
+  const isFollowing = currentUserFollowingIds.includes(user.id);
+  const isOwnProfile = currentUserId === user.id;
   const handleFollowClick = () => {
-    if (!currentUser) {
+    if (!currentUserId) {
       toast.error("Please log in to follow users.");
       return;
     }

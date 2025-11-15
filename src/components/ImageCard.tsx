@@ -15,13 +15,13 @@ interface ImageCardProps {
 }
 export function ImageCard({ artwork }: ImageCardProps) {
   const [isDialogOpen, setDialogOpen] = useState(false);
-  const currentUser = useAuthStore((state) => state.currentUser);
+  const isLoggedIn = useAuthStore((state) => !!state.currentUser);
   const likedArtworks = useArtworksStore((state) => state.likedArtworks);
   const toggleLike = useArtworksStore((state) => state.toggleLike);
   const isLiked = likedArtworks.has(artwork.id);
   const handleSaveClick = (e: React.MouseEvent) => {
     e.stopPropagation();
-    if (currentUser) {
+    if (isLoggedIn) {
       setDialogOpen(true);
     } else {
       toast.error('Please log in to save artwork.');
@@ -71,7 +71,7 @@ export function ImageCard({ artwork }: ImageCardProps) {
           </motion.div>
         </div>
       </motion.div>
-      {currentUser && (
+      {isLoggedIn && (
         <SaveToCollectionDialog
           artworkId={artwork.id}
           open={isDialogOpen}

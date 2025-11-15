@@ -44,7 +44,7 @@ export function AppFooter() {
             Disclaimer: AI capabilities in this application are for demonstration purposes. There is a limit on the number of requests that can be made to the AI servers across all user apps in a given time period.
           </p>
           <p className="text-sm text-muted-foreground text-center">
-            &copy; {new Date().getFullYear()} Artifex Gallery. Built with ���️ at Cloudflare.
+            &copy; {new Date().getFullYear()} Artifex Gallery. Built with ❤️ at Cloudflare.
           </p>
         </div>
       </div>

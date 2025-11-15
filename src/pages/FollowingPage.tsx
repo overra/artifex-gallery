@@ -8,14 +8,13 @@ import { Users, Rss } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 export function FollowingPage() {
   const allArtworks = useArtworksStore((state) => state.artworks);
-  const currentUser = useAuthStore((state) => state.currentUser);
+  const isLoggedIn = useAuthStore((state) => !!state.currentUser);
+  const followingIds = useAuthStore((state) => state.currentUser?.followingIds ?? []);
   const login = useAuthStore((state) => state.login);
   const followingArtworks = useMemo(() => {
-    if (!currentUser || !currentUser.followingIds) {
-      return [];
-    }
-    return allArtworks.filter(artwork => currentUser.followingIds.includes(artwork.artist.id));
-  }, [allArtworks, currentUser]);
+    if (!isLoggedIn) return [];
+    return allArtworks.filter(artwork => followingIds.includes(artwork.artist.id));
+  }, [allArtworks, followingIds, isLoggedIn]);
   const breakpointColumnsObj = {
     default: 5,
     1536: 4,
@@ -25,7 +24,7 @@ export function FollowingPage() {
     640: 1
   };
   const renderContent = () => {
-    if (!currentUser) {
+    if (!isLoggedIn) {
       return (
         <div className="text-center py-16 border-2 border-dashed rounded-lg">
           <Users className="mx-auto h-12 w-12 text-muted-foreground" />
@@ -37,7 +36,7 @@ export function FollowingPage() {
         </div>
       );
     }
-    if (currentUser.followingIds.length === 0) {
+    if (followingIds.length === 0) {
       return (
         <div className="text-center py-16 border-2 border-dashed rounded-lg">
           <Users className="mx-auto h-12 w-12 text-muted-foreground" />
