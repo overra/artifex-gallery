@@ -15,6 +15,7 @@ import { ImageDetailPage } from '@/pages/ImageDetailPage';
 import { ProfilePage } from '@/pages/ProfilePage';
 import { UploadPage } from '@/pages/UploadPage';
 import { AdminDashboardPage } from '@/pages/AdminDashboardPage';
+import { CollectionDetailPage } from '@/pages/CollectionDetailPage';
 import { MainLayout } from '@/components/layout/MainLayout';
 const router = createBrowserRouter([
   {
@@ -40,6 +41,10 @@ const router = createBrowserRouter([
       {
         path: "/admin",
         element: <AdminDashboardPage />,
+      },
+      {
+        path: "/collection/:id",
+        element: <CollectionDetailPage />,
       },
     ]
   }
