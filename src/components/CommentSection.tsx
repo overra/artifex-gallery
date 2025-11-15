@@ -12,16 +12,15 @@ interface CommentSectionProps {
 export function CommentSection({ initialComments }: CommentSectionProps) {
   const [comments, setComments] = useState<Comment[]>(initialComments);
   const [newComment, setNewComment] = useState('');
-  const isLoggedIn = useAuthStore((state) => !!state.currentUser);
-  const currentUserForComment = useAuthStore((state) => state.currentUser); // Need the whole object here for submission
+  const currentUser = useAuthStore((state) => state.currentUser);
   const login = useAuthStore((state) => state.login);
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!newComment.trim() || !currentUserForComment) return;
+    if (!newComment.trim() || !currentUser) return;
     const commentToAdd: Comment = {
       id: `comment-${Date.now()}`,
       text: newComment.trim(),
-      author: currentUserForComment,
+      author: currentUser,
       createdAt: new Date().toISOString(),
     };
     setComments([commentToAdd, ...comments]);
@@ -30,11 +29,11 @@ export function CommentSection({ initialComments }: CommentSectionProps) {
   return (
     <div className="mt-8">
       <h3 className="text-xl font-bold mb-4">{comments.length} Comments</h3>
-      {isLoggedIn && currentUserForComment ? (
+      {currentUser ? (
         <form onSubmit={handleSubmit} className="flex items-start space-x-4 mb-8">
           <Avatar>
-            <AvatarImage src={currentUserForComment.avatarUrl} alt={currentUserForComment.username} />
-            <AvatarFallback>{currentUserForComment.username.charAt(0).toUpperCase()}</AvatarFallback>
+            <AvatarImage src={currentUser.avatarUrl} alt={currentUser.username} />
+            <AvatarFallback>{currentUser.username.charAt(0).toUpperCase()}</AvatarFallback>
           </Avatar>
           <div className="flex-1">
             <Textarea
